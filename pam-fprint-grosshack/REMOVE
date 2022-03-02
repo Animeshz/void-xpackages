@@ -1,0 +1,11 @@
+case "$ACTION" in
+pre)
+    if [ "$UPDATE" != "yes" ]; then
+        file='/etc/pam.d/system-auth'
+        content='auth include pam-fprint-grosshack'
+        temp_file=$(mktemp)
+        awk "/$content/ {print FNR}" "$file" | xargs -I{} sed -e '{}d' "$file" | cat -s > "$temp_file"
+        install -m 644 "$temp_file" /etc/pam.d/system-auth
+        rm "$temp_file"
+    fi;;
+esac

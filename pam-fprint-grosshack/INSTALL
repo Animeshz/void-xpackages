@@ -1,0 +1,9 @@
+case "$ACTION" in
+post)
+    if [ "$UPDATE" != "yes" ]; then
+        file='/etc/pam.d/system-auth'
+        content='auth include pam-fprint-grosshack'
+        line=1; case "$(head -n1 $file)" in '#'*) line=3;; esac
+        grep -qxF "$content" "$file" || sed -i "${line}i ${content}\n" "$file"
+    fi;;
+esac
