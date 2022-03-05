@@ -2,7 +2,8 @@
 pkgname=pam-fprint-grosshack
 version=1.94.1
 revision=1
-wrksrc=pam-fprint-grosshack-grosshack
+_commit=564502577e862e47676365d20963f71451de0d07
+wrksrc="pam-fprint-grosshack-${_commit}"
 build_style=meson
 configure_args="--sysconfdir=/etc/fprintd -Dman=true -Dgtk_doc=false
  -Dsystemd=false -Dpam_modules_dir=/usr/lib/security"
@@ -16,8 +17,8 @@ short_desc="Fork of the pam module which implements the simultaneous password an
 maintainer="Animesh Sahu <animeshsahu19@yahoo.com>"
 license="GPL-2.0-or-later"
 homepage="https://gitlab.com/mishakmak/pam-fprint-grosshack"
-distfiles="${homepage}/-/archive/grosshack/pam-fprint-grosshack-grosshack.tar.bz2"
-checksum=b44c753d6ab54d478a4e3b3a3eb8cdc25cbfd7dc67c134d1ee493fd59b4e709e
+distfiles="${homepage}/-/archive/${_commit}/pam-fprint-grosshack-${_commit}.tar.bz2"
+checksum=e75e3da8b0336a1caf017060b3b65b2a1d1e04546d4da0d6e60bf3ace07b094c
 lib32disabled=yes
 
 post_install() {
