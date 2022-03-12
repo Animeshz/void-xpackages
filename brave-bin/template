@@ -22,6 +22,9 @@ do_extract() {
 do_install() {
     tar xf data.tar.xz -C ${DESTDIR}
 
+    # Patch to use $XDG_CONFIG_HOME/brave-flags.conf
+    patch -Np1 -d ${DESTDIR} < ${FILESDIR}/brave-browser.patch
+
     # Install the icons
     for size in 24 32 48 64 128 256; do
         # Create the brave browser xdg directory

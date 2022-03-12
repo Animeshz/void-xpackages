@@ -1,0 +1,14 @@
+--- a/opt/brave.com/brave/brave-browser	2022-02-09 02:26:50.000000000 +0530
++++ b/opt/brave.com/brave/brave-browser	2022-02-09 02:26:50.000000000 +0530
+@@ -45,4 +45,10 @@
+ exec > >(exec cat)
+ exec 2> >(exec cat >&2)
+
+-"$HERE/brave" "$@" || true
++XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
++BRAVE_USER_FLAGS_FILE="$XDG_CONFIG_HOME/brave-flags.conf"
++if [[ -f $BRAVE_USER_FLAGS_FILE ]]; then
++    USER_FLAGS="$(cat $BRAVE_USER_FLAGS_FILE | sed 's/#.*//')"
++fi
++
++"$HERE/brave" "$@" $USER_FLAGS || true
