@@ -1,0 +1,23 @@
+# Template file for 'webdriver-chrome'
+pkgname=webdriver-chrome
+version=99.0.4844.51
+revision=1
+create_wrksrc=yes
+only_for_archs="x86_64"
+short_desc="Implementation of W3C WebDriver standard for chromium and derivatives"
+maintainer="Animesh Sahu <animeshsahu19@yahoo.com>"
+license="BSD-3-Clause"  # Ref: https://source.chromium.org/chromium#chromium/src/chrome/test/chromedriver
+homepage="https://chromedriver.chromium.org"
+distfiles="
+ https://chromedriver.storage.googleapis.com/${version}/chromedriver_linux64.zip
+ https://github.com/chromium/chromium/raw/main/LICENSE"
+checksum="
+ 3e948b12229667fbb30897de3bae4a3deaac998e552be9a5094227b91c5bbce4
+ 845022e0c1db1abb41a6ba4cd3c4b674ec290f3359d9d3c78ae558d4c0ed9308"
+skip_extraction=LICENSE
+nostrip=yes
+
+do_install() {
+	vbin chromedriver
+	vlicense $XBPS_SRCDISTDIR/$pkgname-$version/LICENSE
+}
