@@ -12,6 +12,9 @@ Just add upstream and merge this into your void-packages clone, and [build as us
 ```bash
 git remote add --fetch xpackages https://github.com/Animeshz/void-xpackages
 git merge -s subtree -Xsubtree=srcpkgs xpackages/main --allow-unrelated-histories --no-edit
+
+# To see a list of packages coming from this repository
+git ls-tree -d --name-only xpackages/main
 ```
 
 ## Work on / Add stuffs

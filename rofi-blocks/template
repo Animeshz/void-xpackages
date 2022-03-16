@@ -1,0 +1,24 @@
+# Template file for 'rofi-blocks'
+pkgname=rofi-blocks
+version=0.0.0.20210123
+revision=1
+_commit=c84577749f71f6c0836fc7ca7ec0097d2fe66492
+wrksrc="${pkgname}-${_commit}"
+build_style=gnu-configure
+hostmakedepends="autoconf automake libtool pkg-config"
+makedepends="rofi-devel json-glib-devel"
+depends="rofi"
+short_desc="Rofi Extension allowing to Control it Externally"
+maintainer="Animeshz <animeshsahu19@yahoo.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/OmarCastro/rofi-blocks"
+distfiles="${homepage}/archive/${_commit}.zip"
+checksum=4dcb8b5bbefc6b1ce1ae62cf50d99c13665f2515c88969465cc0a08accb92950
+
+pre_configure() {
+	autoreconf -i
+}
+
+post_install() {
+	vlicense LICENSE
+}
