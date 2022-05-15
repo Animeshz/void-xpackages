@@ -18,7 +18,3 @@ checksum=4dcb8b5bbefc6b1ce1ae62cf50d99c13665f2515c88969465cc0a08accb92950
 pre_configure() {
 	autoreconf -i
 }
-
-post_install() {
-	vlicense LICENSE
-}

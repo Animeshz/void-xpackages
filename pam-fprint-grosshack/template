@@ -13,7 +13,7 @@ hostmakedepends="meson dbus-glib-devel gettext-devel glib-devel intltool
 makedepends="dbus-devel dbus-glib-devel gettext-devel glib-devel pam-devel
  libfprint-devel polkit-devel cairo-devel elogind-devel pam_wrapper"
 depends=pam-base
-short_desc="Fork of the pam module which implements the simultaneous password and fingerprint"
+short_desc="Fork of the pam module implementing simultaneous password & fingerprint"
 maintainer="Animesh Sahu <animeshsahu19@yahoo.com>"
 license="GPL-2.0-or-later"
 homepage="https://gitlab.com/mishakmak/pam-fprint-grosshack"
@@ -22,6 +22,6 @@ checksum=e75e3da8b0336a1caf017060b3b65b2a1d1e04546d4da0d6e60bf3ace07b094c
 lib32disabled=yes
 
 post_install() {
-    vinstall ${FILESDIR}/pam-fprint-grosshack 644 /etc/pam.d
-    vdoc README
+	vinstall ${FILESDIR}/pam-fprint-grosshack 644 /etc/pam.d
+	vdoc README
 }

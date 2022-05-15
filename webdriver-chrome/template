@@ -2,8 +2,8 @@
 pkgname=webdriver-chrome
 version=99.0.4844.51
 revision=1
+archs="x86_64"
 create_wrksrc=yes
-only_for_archs="x86_64"
 short_desc="Implementation of W3C WebDriver standard for chromium and derivatives"
 maintainer="Animesh Sahu <animeshsahu19@yahoo.com>"
 license="BSD-3-Clause"  # Ref: https://source.chromium.org/chromium#chromium/src/chrome/test/chromedriver

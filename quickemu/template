@@ -3,7 +3,7 @@ pkgname=quickemu
 version=3.12
 revision=1
 depends="qemu jq python3 spice-gtk wget zsync xrandr swtpm"
-short_desc="Quickly create and run optimised Windows, macOS and Linux desktop virtual machines."
+short_desc="Quickly create and run optimised Windows, macOS and Linux VMs"
 maintainer="Animesh Sahu <animeshsahu19@yahoo.com>"
 license="MIT"
 homepage="https://github.com/quickemu-project/quickemu"
@@ -11,9 +11,9 @@ distfiles="${homepage}/archive/refs/tags/${version}.tar.gz"
 checksum=fe27da3cb6ff2df549efafada181be4339077bdeec4bd2f5a25e21acd9c150c0
 
 do_install() {
-    vbin quickemu
-    vbin quickget
-    vbin macrecovery
-    vlicense LICENSE
-    vdoc README.md
+	vbin quickemu
+	vbin quickget
+	vbin macrecovery
+	vlicense LICENSE
+	vdoc README.md
 }
