@@ -1,8 +1,9 @@
 name: Build
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   build:
@@ -85,6 +86,12 @@ jobs:
           echo; echo "===== Checking installation ====="
           "$here/common/travis/check-install.sh" "$BOOTSTRAP" "$ARCH"
           cd -
+
+      - name: Sign repository
+        run: |
+          echo "${{ secrets.SIGNING_RSA_KEY }}" > private.pem
+          xbps-rindex --privkey private.pem --sign --signedby "Animesh Sahu" $HOME/hostdir/binpkgs
+          xbps-rindex --privkey private.pem --sign-pkg $HOME/hostdir/binpkgs/*.xbps
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
