@@ -1,0 +1,121 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: 'ghcr.io/void-linux/xbps-src-masterdir:latest-${{ matrix.config.bootstrap }}'
+      env:
+        PATH: '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/usr/local/bin:/tmp/bin'
+        ARCH: '${{ matrix.config.arch }}'
+        BOOTSTRAP: '${{ matrix.config.bootstrap }}'
+        # TEST: '${{ matrix.config.test }}'
+        HOSTREPO: /hostrepo
+        REPOSITORY: '${{ github.repository }}'
+        BRANCH: '${{ github.ref_name }}'
+        REF: '${{ github.ref }}'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { arch: x86_64, bootstrap: x86_64, test: 1 }
+          # - { arch: i686, bootstrap: i686, test: 1 }
+          # - { arch: aarch64, bootstrap: x86_64, test: 0 }
+          # - { arch: armv7l, bootstrap: x86_64, test: 0 }
+          # - { arch: x86_64-musl, bootstrap: x86_64-musl, test: 1 }
+          # - { arch: armv6l-musl, bootstrap: x86_64-musl, test: 0 }
+          # - { arch: aarch64-musl, bootstrap: x86_64-musl, test: 0 }
+
+    steps:
+      - name: Prepare container
+        run: |
+          xbps-install -Syu || xbps-install -yu xbps
+          xbps-install -yu
+          xbps-install -y bash git libstdc++ tar wget ${{ env.ACT && 'nodejs' }}
+          echo "HOME=$HOME" >> $GITHUB_ENV
+
+      # Non x86_64: https://github.com/actions/checkout/issues/334
+      - uses: actions/checkout@v3
+        with:
+          repository: void-linux/void-packages
+          fetch-depth: 1
+
+      - name: Create hostrepo and prepare masterdir
+        run: |
+          ln -s "$(pwd)" /hostrepo \
+          && common/travis/set_mirror.sh \
+          && common/travis/prepare.sh \
+          && git config --global --add safe.directory "$(pwd)" \
+          && common/travis/fetch-xtools.sh
+
+          echo; echo "===== Checking out xpackages repository ====="
+          wget "$GITHUB_SERVER_URL/$REPOSITORY/archive/$REF.tar.gz"
+          tar -xzvf "${BRANCH:-$(basename $REF)}.tar.gz" --strip-components=1 -C srcpkgs
+
+          echo; echo "===== Changed Templates ====="
+          git add .
+          git diff-index -r --no-renames --name-only --diff-filter=AM --cached HEAD \
+          -- 'srcpkgs/*/template' \
+          | cut -d/ -f 2 \
+          | tee /tmp/templates \
+          | sed "s/^/  /" >&2
+
+      - name: Build (xbps-src)
+        run: |
+          here="$(pwd)"
+          cd /
+          echo; echo "===== Building Packages ====="
+          "$here/common/travis/build.sh" "$BOOTSTRAP" "$ARCH" "$TEST"
+          cd -
+
+      - name: Metadata and Verification (void-packages/scripts)
+        run: |
+          here="$(pwd)"
+          cd /
+          echo; echo "===== Displaying Files ====="
+          "$here/common/travis/show_files.sh" "$BOOTSTRAP" "$ARCH"
+          echo; echo "===== Displaying Diffs ====="
+          "$here/common/travis/xpkgdiff.sh" "$BOOTSTRAP" "$ARCH"
+          echo; echo "===== Checking installation ====="
+          "$here/common/travis/check-install.sh" "$BOOTSTRAP" "$ARCH"
+          cd -
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: binpkg-${{ matrix.config.ARCH }}
+          path: ${{ env.HOME }}/hostdir/binpkgs
+          retention-days: 1
+
+  post_build:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Flatten the artifacts hierarchy
+        run: |
+          rsync -avh --remove-source-files binpkg-*/ ./
+          find ./ -type d -empty -delete
+
+      - name: Setup git lfs
+        run: |
+          sudo apt-get install -y git git-lfs
+          git init .
+          git lfs install
+          git lfs track '*.xbps'
+
+      - name: Deploy Binaries
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: '${{ secrets.GITHUB_TOKEN }}'
+          publish_dir: '.'
+          force_orphan: true
