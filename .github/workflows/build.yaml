@@ -1,9 +1,9 @@
 name: Build
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -113,16 +113,18 @@ jobs:
           rsync -avh --remove-source-files binpkg-*/ ./
           find ./ -type d -empty -delete
 
-      - name: Setup git lfs
+      - name: Deploy Binaries
+        env:
+          NETLIFY_LFS: https://fbd39825-00be-4c1a-9eec-3e33af6cd078.netlify.app/.netlify/large-media
         run: |
           sudo apt-get install -y git git-lfs
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git init .
           git lfs install
           git lfs track '*.xbps'
-
-      - name: Deploy Binaries
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: '${{ secrets.GITHUB_TOKEN }}'
-          publish_dir: '.'
-          force_orphan: true
+          printf '%s\n' '[lfs]' "    url = $NETLIFY_LFS" > .lfsconfig
+          git config "lfs.$NETLIFY_LFS.locksverify" false
+          git add .
+          git commit --no-verify --signoff --author "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>" -m "Deploy XBPS Binaries"
+          git push -fu "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" HEAD:binaries --atomic
