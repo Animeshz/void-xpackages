@@ -1,8 +1,8 @@
 # Template file for 'pam-fprint-grosshack'
 pkgname=pam-fprint-grosshack
-version=1.94.1
+version=1.94.2
 revision=1
-_commit=564502577e862e47676365d20963f71451de0d07
+_commit=9107e1c09c2f48e8a3b57a2d12a71ae2cf330dfc
 wrksrc="pam-fprint-grosshack-${_commit}"
 build_style=meson
 configure_args="--sysconfdir=/etc/fprintd -Dman=true -Dgtk_doc=false
@@ -16,9 +16,9 @@ depends=pam-base
 short_desc="Fork of the pam module implementing simultaneous password & fingerprint"
 maintainer="Animesh Sahu <animeshsahu19@yahoo.com>"
 license="GPL-2.0-or-later"
-homepage="https://gitlab.com/mishakmak/pam-fprint-grosshack"
+homepage="https://gitlab.com/Animeshz/pam-fprint-grosshack"
 distfiles="${homepage}/-/archive/${_commit}/pam-fprint-grosshack-${_commit}.tar.bz2"
-checksum=e75e3da8b0336a1caf017060b3b65b2a1d1e04546d4da0d6e60bf3ace07b094c
+checksum=9ad09cc3aaf7b90f34532a09a01755c7d7d9f6b94ff98a964fca8d971eab1004
 lib32disabled=yes
 
 post_install() {
