@@ -117,14 +117,21 @@ jobs:
         env:
           NETLIFY_LFS: https://fbd39825-00be-4c1a-9eec-3e33af6cd078.netlify.app/.netlify/large-media
         run: |
-          sudo apt-get install -y git git-lfs
+          export SHELL=/bin/bash
+          sudo apt-get update -y && sudo apt-get install -y git git-lfs nodejs npm
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git init .
+          git init . -b binaries
           git lfs install
           git lfs track '*.xbps'
-          printf '%s\n' '[lfs]' "    url = $NETLIFY_LFS" > .lfsconfig
           git config "lfs.$NETLIFY_LFS.locksverify" false
+          npm i -g netlify-cli
+          mkdir -p $HOME/.config/netlify
+          printf '%s\n' '[lfs]' "    url = $NETLIFY_LFS" > .lfsconfig
+          printf '%s\n' '${{ secrets.NETLIFY_CONFIG }}' > $HOME/.config/netlify/config.json
+          netlify lm:install --force || true
+          source /home/runner/.config/netlify/helper/path.$(basename "$SHELL").inc
           git add .
           git commit --no-verify --signoff --author "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>" -m "Deploy XBPS Binaries"
           git push -fu "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" HEAD:binaries --atomic
+
