@@ -1,7 +1,7 @@
 # Template file for 'brave-bin'
 # Upstream: https://gitlab.com/ElPresidentePoole/brave-bin
 pkgname=brave-bin
-version=1.36.112
+version=1.38.119
 revision=1
 archs="x86_64"
 hostmakedepends="tar xz"
@@ -11,7 +11,7 @@ maintainer="ElPresidentePoole <elpresidentepoole@gmail.com>"
 license="MPL-2.0"
 homepage="https://brave.com"
 distfiles="https://github.com/brave/brave-browser/releases/download/v${version}/brave-browser_${version}_amd64.deb"
-checksum=028b6d259f9611ce3b638ed779f55d374016e8f3b5f0247bed0186c0bb8a3aca
+checksum=a3041fee2356dfa7c5aea5c53c441d8d9449c044e59ef9998509fec4c7856e15
 nostrip=yes
 
 do_extract() {
