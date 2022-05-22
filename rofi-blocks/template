@@ -1,8 +1,8 @@
 # Template file for 'rofi-blocks'
 pkgname=rofi-blocks
-version=0.0.0.20210123
+version=0.0.0.20220320
 revision=1
-_commit=c84577749f71f6c0836fc7ca7ec0097d2fe66492
+_commit=50962f7e545036e12624ad6d939fa86bae58f95c
 wrksrc="${pkgname}-${_commit}"
 build_style=gnu-configure
 hostmakedepends="autoconf automake libtool pkg-config"
@@ -13,7 +13,7 @@ maintainer="Animeshz <animeshsahu19@yahoo.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/OmarCastro/rofi-blocks"
 distfiles="${homepage}/archive/${_commit}.zip"
-checksum=4dcb8b5bbefc6b1ce1ae62cf50d99c13665f2515c88969465cc0a08accb92950
+checksum=0c6a8b09458c2dd0570109bd78f8d48cf7fb647ce12e4e18a507de5ef07f4c1e
 
 pre_configure() {
 	autoreconf -i

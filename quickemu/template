@@ -1,6 +1,6 @@
 # Template file for 'quickemu'
 pkgname=quickemu
-version=3.12
+version=3.15
 revision=1
 depends="qemu jq python3 spice-gtk wget zsync xrandr swtpm"
 short_desc="Quickly create and run optimised Windows, macOS and Linux VMs"
@@ -8,7 +8,7 @@ maintainer="Animesh Sahu <animeshsahu19@yahoo.com>"
 license="MIT"
 homepage="https://github.com/quickemu-project/quickemu"
 distfiles="${homepage}/archive/refs/tags/${version}.tar.gz"
-checksum=fe27da3cb6ff2df549efafada181be4339077bdeec4bd2f5a25e21acd9c150c0
+checksum=bba9f0432a5fdb65e52356438ccf62367da5704821a95545eeb472d8a3cb9412
 
 do_install() {
 	vbin quickemu

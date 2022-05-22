@@ -1,18 +1,17 @@
 # Template file for 'webdriver-firefox'
 pkgname=webdriver-firefox
-version=0.30.0
+version=0.31.0
 revision=1
 archs="x86_64"
 create_wrksrc=yes
 short_desc="Implementation of W3C WebDriver standard for firefox"
 maintainer="Animesh Sahu <animeshsahu19@yahoo.com>"
-license="MPL-2.0"  # Ref: https://source.chromium.org/chromium#chromium/src/chrome/test/chromedriver
+license="MPL-2.0"
 homepage="https://github.com/mozilla/geckodriver"
 distfiles="
  ${homepage}/releases/download/v${version}/geckodriver-v${version}-linux64.tar.gz
  https://www.mozilla.org/media/MPL/2.0/index.48a3fe23ed13.txt>LICENSE"
-checksum="
- 12c37f41d11ed982b7be43d02411ff2c75fb7a484e46966d000b47d1665baa88
+checksum="7fdd8007d22a6f44caa6929a3d74bbd6a00984d88be50255153671bd201e5493
  66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172"
 skip_extraction=LICENSE
 nostrip=yes
