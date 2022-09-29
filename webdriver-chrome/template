@@ -1,7 +1,7 @@
 # Template file for 'webdriver-chrome'
 pkgname=webdriver-chrome
 version=101.0.4951.41
-revision=1
+revision=2
 archs="x86_64"
 create_wrksrc=yes
 short_desc="Implementation of W3C WebDriver standard for chromium and derivatives"
@@ -12,7 +12,7 @@ distfiles="
  https://chromedriver.storage.googleapis.com/${version}/chromedriver_linux64.zip>chromedriver_linux64-${version}.zip
  https://github.com/chromium/chromium/raw/main/LICENSE"
 checksum="99511b54102cf52ab22bf5dcc5a46c4a75d9ed4ca2b1d06b99a006782a33507f
- 845022e0c1db1abb41a6ba4cd3c4b674ec290f3359d9d3c78ae558d4c0ed9308"
+ 368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b"
 skip_extraction=LICENSE
 nostrip=yes
 
